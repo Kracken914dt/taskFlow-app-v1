@@ -16,14 +16,17 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
 // ── Health check ──────────────────────────────────────────────────────────────
-app.get('/api/health', (req, res) => {
-  res.json({
+const healthHandler = (req, res) => {
+  res.status(200).json({
     status: 'ok',
     service: 'TaskFlow API',
     timestamp: new Date().toISOString(),
     patterns: ['Singleton', 'Factory Method', 'Builder', 'Prototype', 'Abstract Factory'],
   });
-});
+};
+
+app.get('/health', healthHandler);
+app.get('/api/health', healthHandler);
 
 // ── Rutas ─────────────────────────────────────────────────────────────────────
 app.use('/api', routes);

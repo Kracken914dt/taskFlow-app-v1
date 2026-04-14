@@ -21,6 +21,30 @@ Plataforma web de gestión colaborativa de tareas y proyectos con tableros Kanba
 - Base de datos: MongoDB 7.0
 - Infraestructura: Docker + Docker Compose
 
+## 🚀 Publicación en DockerHub
+
+El repositorio incluye un workflow en [.github/workflows/publish-dockerhub.yml](.github/workflows/publish-dockerhub.yml) que construye y publica las imágenes del backend y frontend en DockerHub cuando haces push a `main` o lo ejecutas manualmente.
+
+### Secretos requeridos en GitHub
+
+- `DOCKERHUB_USERNAME`: tu usuario de DockerHub.
+- `DOCKERHUB_TOKEN`: token de acceso con permisos de push.
+
+### Variable opcional
+
+- `BACKEND_URL`: URL del backend para el build del frontend. Si no la defines, el frontend usa `/api` por defecto.
+
+### Imágenes generadas
+
+- `tu-usuario/taskflow-backend:latest`
+- `tu-usuario/taskflow-backend:<sha>`
+- `tu-usuario/taskflow-frontend:latest`
+- `tu-usuario/taskflow-frontend:<sha>`
+
+### Uso con Docker Compose
+
+Después de publicar las imágenes, puedes desplegarlas con `docker compose up -d` usando las variables `DOCKERHUB_NAMESPACE`, `BACKEND_TAG` y `FRONTEND_TAG` si quieres fijar versiones concretas.
+
 ---
 
 ## 🎨 Patrones de Diseño Creacionales
