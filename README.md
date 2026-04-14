@@ -357,7 +357,7 @@ cd taskflow
 docker-compose up --build
 
 # 3. Abrir la aplicación
-# Frontend: http://localhost
+# Frontend: http://localhost:5000
 # API:      http://localhost:3000/api/health
 ```
 
@@ -373,7 +373,7 @@ npm run dev               # Puerto 3000
 # Frontend (nueva terminal)
 cd frontend
 npm install
-npm run dev               # Puerto 5173
+npm run dev               # Puerto 5000
 ```
 
 ---
