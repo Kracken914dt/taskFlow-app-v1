@@ -62,6 +62,7 @@ jobs:
           platforms: linux/amd64
           build-args: |
             BACKEND_URL=${{ vars.BACKEND_URL || '/api' }}
+            VITE_IMPORT_EXPORT_API=${{ vars.VITE_IMPORT_EXPORT_API || '' }}
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/taskflow-frontend:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/taskflow-frontend:${{ github.sha }}
