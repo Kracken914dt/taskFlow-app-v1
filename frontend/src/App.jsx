@@ -5,6 +5,7 @@ import RegisterPage  from './components/auth/RegisterPage.jsx'
 import DashboardPage from './components/dashboard/DashboardPage.jsx'
 import ProjectPage   from './components/projects/ProjectPage.jsx'
 import BoardPage     from './components/boards/BoardPage.jsx'
+import DataImportExport from './components/shared/DataImportExport.jsx'
 import Navbar        from './components/shared/Navbar.jsx'
 
 function PrivateRoute({ children }) {
@@ -30,6 +31,7 @@ export default function App() {
         <Route path="/" element={<PrivateRoute><DashboardPage /></PrivateRoute>} />
         <Route path="/projects/:id" element={<PrivateRoute><ProjectPage /></PrivateRoute>} />
         <Route path="/boards/:id"   element={<PrivateRoute><BoardPage /></PrivateRoute>} />
+        <Route path="/import-export" element={<PrivateRoute><DataImportExport /></PrivateRoute>} />
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

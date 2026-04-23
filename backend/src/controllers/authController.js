@@ -1,10 +1,57 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const { SNSClient, PublishCommand } = require('@aws-sdk/client-sns');
+
+// Inicializar cliente SNS
+const snsClient = process.env.AWS_REGION 
+  ? new SNSClient({ region: process.env.AWS_REGION })
+  : null;
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRE || '7d',
   });
+};
+
+// Envía notificación a SNS cuando se registra un usuario
+const publishUserRegistrationEvent = async (user) => {
+  if (!snsClient || !process.env.SNS_TOPIC_ARN) {
+    console.log('SNS no configurado, omitiendo notificación de registro');
+    return;
+  }
+
+  try {
+    const message = {
+      subject: 'Nuevo Usuario Registrado',
+      email: user.email,
+      name: user.name,
+      role: user.role,
+      timestamp: new Date().toISOString(),
+    };
+
+    const params = {
+      TopicArn: process.env.SNS_TOPIC_ARN,
+      Subject: 'Nuevo Usuario Registrado en TaskFlow',
+      Message: JSON.stringify(message, null, 2),
+      MessageAttributes: {
+        email: {
+          DataType: 'String',
+          StringValue: user.email,
+        },
+        userId: {
+          DataType: 'String',
+          StringValue: user._id.toString(),
+        },
+      },
+    };
+
+    const command = new PublishCommand(params);
+    await snsClient.send(command);
+    console.log(`Evento de registro publicado para ${user.email}`);
+  } catch (error) {
+    console.error('Error publicando a SNS:', error);
+    // No lanzar error, ya que la notificación es secundaria
+  }
 };
 
 // POST /api/auth/register
@@ -18,6 +65,10 @@ const register = async (req, res) => {
     }
 
     const user = await User.create({ name, email, password, role });
+    
+    // Publica el evento de registro a SNS
+    await publishUserRegistrationEvent(user);
+    
     const token = generateToken(user._id);
 
     res.status(201).json({ token, user });

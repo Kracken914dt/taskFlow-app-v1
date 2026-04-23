@@ -30,6 +30,14 @@ const IconBolt = () => (
   </svg>
 )
 
+const IconImportExport = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M4 14v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/>
+    <polyline points="16 3 12 7 8 3"/>
+    <line x1="12" y1="7" x2="12" y2="15"/>
+  </svg>
+)
+
 export default function Navbar() {
   const { user, logout } = useAuth()
   const { themeName, toggleTheme } = useTheme()
@@ -62,6 +70,19 @@ export default function Navbar() {
           TaskFlow
         </span>
       </Link>
+
+      {/* Center - Import/Export button */}
+      {user && (
+        <Link to="/import-export" style={{ textDecoration: 'none' }}>
+          <button className="btn btn-ghost btn-sm" 
+            style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'var(--text-primary)' }}
+            title="Importar/Exportar datos"
+          >
+            <IconImportExport />
+            Datos
+          </button>
+        </Link>
+      )}
 
       {/* Right side */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
