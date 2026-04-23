@@ -1,9 +1,10 @@
-import React, { useState, useContext } from 'react';
-import { AuthContext } from '../../context/AuthContext';
+import { useState } from 'react';
+import { useAuth } from '../../context/AuthContext.jsx';
 import './DataImportExport.css';
 
 const DataImportExport = () => {
-  const { user, token } = useContext(AuthContext);
+  const { user } = useAuth();
+  const token = localStorage.getItem('tf_token');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [importType, setImportType] = useState('projects');
@@ -12,7 +13,10 @@ const DataImportExport = () => {
   const [uploadFile, setUploadFile] = useState(null);
 
   // URL de API Gateway (obtener del .env)
-  const API_BASE_URL = process.env.REACT_APP_IMPORT_EXPORT_API || 'http://localhost:3001';
+  const API_BASE_URL =
+    import.meta.env.VITE_IMPORT_EXPORT_API ||
+    import.meta.env.REACT_APP_IMPORT_EXPORT_API ||
+    'http://localhost:3001';
 
   const handleImport = async (e) => {
     e.preventDefault();
