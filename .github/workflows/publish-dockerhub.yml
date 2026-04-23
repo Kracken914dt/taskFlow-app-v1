@@ -62,7 +62,7 @@ jobs:
           platforms: linux/amd64
           build-args: |
             BACKEND_URL=${{ vars.BACKEND_URL || '/api' }}
-            VITE_IMPORT_EXPORT_API=${{ vars.VITE_IMPORT_EXPORT_API || '' }}
+            VITE_IMPORT_EXPORT_API_URL=${{ vars.IMPORT_EXPORT_API_URL || 'https://qq0lgt4aj4.execute-api.us-east-1.amazonaws.com/prod' }}
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/taskflow-frontend:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/taskflow-frontend:${{ github.sha }}

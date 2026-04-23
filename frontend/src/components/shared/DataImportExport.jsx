@@ -14,6 +14,7 @@ const DataImportExport = () => {
 
   // URL de API Gateway (obtener del .env)
   const API_BASE_URL =
+    import.meta.env.VITE_IMPORT_EXPORT_API_URL ||
     import.meta.env.VITE_IMPORT_EXPORT_API ||
     import.meta.env.REACT_APP_IMPORT_EXPORT_API ||
     'http://localhost:3001';
