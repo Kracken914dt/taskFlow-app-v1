@@ -1,6 +1,10 @@
 import axios from 'axios';
 
-const backendUrl = import.meta.env.BACKEND_URL || '/api';
+const envBackendUrl = import.meta.env.BACKEND_URL;
+const normalizedBackendUrl = envBackendUrl ? envBackendUrl.replace(/\/$/, '') : '';
+const backendUrl = normalizedBackendUrl
+  ? (normalizedBackendUrl.endsWith('/api') ? normalizedBackendUrl : `${normalizedBackendUrl}/api`)
+  : '/api';
 
 const api = axios.create({
   baseURL: backendUrl.replace(/\/$/, ''),
